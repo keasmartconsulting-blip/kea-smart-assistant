@@ -1,0 +1,29 @@
+<! DOCTYPE html>
+<html lang="fr">
+<tête>
+<meta charset="UTF-8">
+<meta name="viewport » content="width=device-width, initial-scale=1.0">
+<title>KEA SMART CONSULTING - Assistant</title>
+
+</head>
+<body>
+<h1>KEA SMART CONSULTING</h1>
+<h2>Votre Assistant Consultant Intelligent</h2>
+
+<p>Bienvenue sur l’assistant intelligent de KEA SMART CONSULTING GUINÉE.</p>
+
+<p>
+Je peux vous orienter dans les domaines de la comptabilité,
+de la fiscalité, de la gestion financière et de la création d’entreprise.
+</p>
+
+<hr>
+
+<h3>Posez votre question</h3>
+
+<input type="text » id="question »
+placeholder="Écrivez votre question ici...">
+
+<button>Envoyer</button>
+</body>
+</html>
