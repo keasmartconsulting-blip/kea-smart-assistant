@@ -50,6 +50,21 @@
   .cat{font-size:.75rem;text-transform:uppercase;letter-spacing:.6px;color:var(--gold);font-weight:700;margin:18px 0 4px}
   .cat:first-child{margin-top:0}
   .disclaimer{font-size:.8rem;color:var(--muted)}
+  .topnav{margin-top:14px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+  .topnav a{color:var(--navy);background:var(--gold);text-decoration:none;font-weight:700;font-size:.88rem;padding:8px 14px;border-radius:999px}
+  .topnav a.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6)}
+  .formations{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .fcard{border:1px solid var(--border);border-top:4px solid var(--gold);border-radius:10px;padding:16px;display:flex;flex-direction:column;background:#FCFDFF}
+  .fcard h3{margin:0 0 6px;color:var(--navy);font-size:1rem}
+  .fcard p{margin:0 0 8px;font-size:.88rem}
+  .fcard .meta{font-size:.82rem;color:var(--muted);margin-bottom:12px}
+  .fcard .meta b{color:var(--navy)}
+  .fcard .btn{margin-top:auto;justify-content:center}
+  .qr-card{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .qr-card img{border:4px solid var(--gold);border-radius:10px;padding:6px;background:#fff;flex:0 0 auto}
+  .qr-card div{flex:1 1 260px}
+  .qr-card p{margin:0 0 14px;font-size:.92rem}
+  .lieu{margin-top:14px;font-size:.85rem;color:var(--muted)}
   footer{text-align:center;font-size:.82rem;color:var(--muted);padding:18px 16px 30px}
   footer b{color:var(--navy)}
 </style>
@@ -59,6 +74,10 @@
 <header>
   <h1>KEA SMART <span>CONSULTING</span> GUINÉE</h1>
   <p>Assistant du cabinet : réponses en comptabilité, fiscalité, social et création d'entreprise, avec la référence légale de chaque réponse.</p>
+  <nav class="topnav">
+    <a href="#formations">🎓 Nos formations</a>
+    <a class="ghost" href="#faqList">Questions fréquentes</a>
+  </nav>
 </header>
 
 <main>
@@ -70,6 +89,47 @@
     </form>
     <div class="chips" id="chips"></div>
     <div id="results" aria-live="polite"></div>
+  </section>
+
+  <section class="card" id="formations">
+    <h2>🎓 Nos formations professionnelles</h2>
+    <div class="formations">
+      <div class="fcard">
+        <h3>Comptabilité SYSCOHADA</h3>
+        <p>Tenue de la comptabilité, écritures courantes, inventaire et états financiers selon le SYSCOHADA révisé.</p>
+        <div class="meta"><b>Tarif :</b> 1 500 000 GNF<br><b>Prochaine session :</b> 14 novembre 2026</div>
+        <a class="btn btn-wa" target="_blank" rel="noopener" data-formation="Comptabilité SYSCOHADA">💬 S'inscrire</a>
+      </div>
+      <div class="fcard">
+        <h3>Fiscalité des entreprises</h3>
+        <p>TVA, IMF, impôt sur les bénéfices, RTS, VF, calendrier fiscal et réponses aux courriers de la DGI.</p>
+        <div class="meta"><b>Tarif et dates :</b> sur demande</div>
+        <a class="btn btn-wa" target="_blank" rel="noopener" data-formation="Fiscalité des entreprises">💬 S'inscrire</a>
+      </div>
+      <div class="fcard">
+        <h3>Intelligence artificielle</h3>
+        <p>Bases de l'IA, ChatGPT et Claude appliqués à votre métier : entrepreneuriat, administration, comptabilité, santé, droit…</p>
+        <div class="meta"><b>Formule 1 – ChatGPT et Claude :</b> 500 000 GNF + 100 000 GNF d'inscription<br><b>Formule 2 – Version professionnels :</b> 1 000 000 GNF + 100 000 GNF d'inscription<br><b>Format :</b> présentiel et en ligne</div>
+        <a class="btn btn-wa" target="_blank" rel="noopener" data-formation="Intelligence artificielle – Formule 1 : ChatGPT et Claude (500 000 GNF + 100 000 GNF d'inscription)">💬 Formule 1 – ChatGPT et Claude</a>
+        <a class="btn btn-wa" style="margin-top:8px" target="_blank" rel="noopener" data-formation="Intelligence artificielle – Formule 2 : Version professionnels (1 000 000 GNF + 100 000 GNF d'inscription)">💬 Formule 2 – Professionnels</a>
+      </div>
+      <div class="fcard">
+        <h3>CNSS et gestion sociale</h3>
+        <p>Immatriculation, déclarations et cotisations CNSS, gestion des salaires et obligations de l'employeur.</p>
+        <div class="meta"><b>Tarif et dates :</b> sur demande</div>
+        <a class="btn btn-wa" target="_blank" rel="noopener" data-formation="CNSS et gestion sociale">💬 S'inscrire</a>
+      </div>
+    </div>
+    <p class="lieu">📍 Lieu des formations en présentiel : Yataya FOSIDET, non loin de la Station Total – Conakry. Places limitées, attestation de formation délivrée.</p>
+  </section>
+
+  <section class="card qr-card" id="partager">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeoAAAHqAQMAAADxo595AAAABlBMVEX///8KLopePzW6AAAD1ElEQVR42u1dwW0jMQwcnha4p9xBSpE7uJrS2bqUFBBg9xlgDd5DIkUZeUX6ZfiL40EAgiA15JABaDQa7VdY1mZ7VtUdAIpeAPLVfrvXr7TP7OsXgD9zf5rw3wm34AJgwaWqegAAUoy1HUlRDqAGZoXR84T/GN6C69wgcgPweLOs97glRTmSyh1PCdlxp+sIXwLPX6L6IVIjrFgkAngKyhETI11H+GyFVdWrVlgga01uKFZuLbm1gtvef6ywhP/UNgCAlc7nhrI/62f6uH1uQP7cADw3Dd87BUCm5wmfgCdLaQD0/Qbo+9uXNIaBTh++pGa40gkHPU/4Aqs1tDVSrH1SDu+m0HWEL4u61hFpfBXA8K4rB6B6tM4Jiqq2IKTnCf+hJW0B561iHZJby3rWr+v8g54nfCbqKjf1XFe0Pd8qpa1l1kpvi1NyWMJnX3PWKrGHXNJGJHIcVQTqUcgmCJ/LdS3M6uDLSGurpjqkPh9kMOoIx9z0395wXlyNXNRI1P7C84THCkv47PQ/5LrspFXVKa1H55FU1eovPU/4LJsIuQ595oVU33WmPvHEyFxH+Bxc7n0EgaS6nyJyP7f6mcgNELklVf0QAc6/StcRPv2uc4L6+q7rowrnEK2bRzZB+BoO21hqnz7UlkqQ4FVym6glJnwBh/WOXB1QDJ1jk0C5gp25jvA1nRMN4rk+bo3bEkfSWGuZ6wif3Nbp+pI+/fLPQukNCY9RR/iklaAl9omshV4vs72lxy4x4fOak5ccFlYRB1W7byvyXUf4/GZiWEochE9hUXHcjGXUET7PYWMiMw7bgtB4rc9hWWEJX7IjZoPXluuyh5nrUILcyT6j5wmf6RKj04cuY+/L1jZ97UHICkv4EjZhC2A9uXle68w1CARYYQlfJLILdbWX1DqW9W0xMNcRvuyw0577UkTXDfudp5HIkk0QPq85sVZx4BW9kA5FOA4y6HnC5zontpmTRi2xS1AO13cedB3hS64mRhl7GPePkRgOAHD6T/iSpt0+7lnvPv0KXbpwAIpRR/iKvQlnCS7o7My1zSuqtC5xDkv4gh2x3qVTZ7PjzDXco1BO/wlfZi/nh7u+zm+KRR0KKyzhK26wY2wB+0SiJjftYzHmOsIxeavTjnMC6RIgXfWHxz9AkAEpe4QI8nPD4+3a6HnC5+8SY9iWCLsUeNHX8X4d4SuvYZugLh7Hrr3hfWzu0XWEr4GfInLPF9p2/ykC4Cn1f1D4g6/9SDZB+JL/reNKu74tBhMPR30TXUf4Ug7bqml+OUkctcRhQEbPE06j0Wi07+0/sq+FzXy7+uUAAAAASUVORK5CYII=" alt="QR code de l'assistant KEA SMART CONSULTING GUINÉE" width="200" height="200">
+    <div>
+      <h2>📲 Partagez notre assistant</h2>
+      <p>Scannez ce QR code avec l'appareil photo de votre téléphone pour ouvrir l'assistant, ou partagez-le à un collègue chef d'entreprise.</p>
+      <a class="btn btn-primary" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeoAAAHqAQMAAADxo595AAAABlBMVEX///8KLopePzW6AAAD1ElEQVR42u1dwW0jMQwcnha4p9xBSpE7uJrS2bqUFBBg9xlgDd5DIkUZeUX6ZfiL40EAgiA15JABaDQa7VdY1mZ7VtUdAIpeAPLVfrvXr7TP7OsXgD9zf5rw3wm34AJgwaWqegAAUoy1HUlRDqAGZoXR84T/GN6C69wgcgPweLOs97glRTmSyh1PCdlxp+sIXwLPX6L6IVIjrFgkAngKyhETI11H+GyFVdWrVlgga01uKFZuLbm1gtvef6ywhP/UNgCAlc7nhrI/62f6uH1uQP7cADw3Dd87BUCm5wmfgCdLaQD0/Qbo+9uXNIaBTh++pGa40gkHPU/4Aqs1tDVSrH1SDu+m0HWEL4u61hFpfBXA8K4rB6B6tM4Jiqq2IKTnCf+hJW0B561iHZJby3rWr+v8g54nfCbqKjf1XFe0Pd8qpa1l1kpvi1NyWMJnX3PWKrGHXNJGJHIcVQTqUcgmCJ/LdS3M6uDLSGurpjqkPh9kMOoIx9z0395wXlyNXNRI1P7C84THCkv47PQ/5LrspFXVKa1H55FU1eovPU/4LJsIuQ595oVU33WmPvHEyFxH+Bxc7n0EgaS6nyJyP7f6mcgNELklVf0QAc6/StcRPv2uc4L6+q7rowrnEK2bRzZB+BoO21hqnz7UlkqQ4FVym6glJnwBh/WOXB1QDJ1jk0C5gp25jvA1nRMN4rk+bo3bEkfSWGuZ6wif3Nbp+pI+/fLPQukNCY9RR/iklaAl9omshV4vs72lxy4x4fOak5ccFlYRB1W7byvyXUf4/GZiWEochE9hUXHcjGXUET7PYWMiMw7bgtB4rc9hWWEJX7IjZoPXluuyh5nrUILcyT6j5wmf6RKj04cuY+/L1jZ97UHICkv4EjZhC2A9uXle68w1CARYYQlfJLILdbWX1DqW9W0xMNcRvuyw0577UkTXDfudp5HIkk0QPq85sVZx4BW9kA5FOA4y6HnC5zontpmTRi2xS1AO13cedB3hS64mRhl7GPePkRgOAHD6T/iSpt0+7lnvPv0KXbpwAIpRR/iKvQlnCS7o7My1zSuqtC5xDkv4gh2x3qVTZ7PjzDXco1BO/wlfZi/nh7u+zm+KRR0KKyzhK26wY2wB+0SiJjftYzHmOsIxeavTjnMC6RIgXfWHxz9AkAEpe4QI8nPD4+3a6HnC5+8SY9iWCLsUeNHX8X4d4SuvYZugLh7Hrr3hfWzu0XWEr4GfInLPF9p2/ykC4Cn1f1D4g6/9SDZB+JL/reNKu74tBhMPR30TXUf4Ug7bqml+OUkctcRhQEbPE06j0Wi07+0/sq+FzXy7+uUAAAAASUVORK5CYII=" download="QR_Assistant_KSC.png">⬇ Télécharger le QR code</a>
+    </div>
   </section>
 
   <section class="card">
@@ -281,7 +341,7 @@ const FAQ = [
     <li>Création d'entreprise (EI, SARL, SARLU).</li>
     <li>Formations professionnelles : comptabilité, fiscalité, intelligence artificielle, outils Microsoft.</li>
   </ul>
-  <p>Pour un devis, écrivez-nous sur WhatsApp.</p>`,
+  <p>Pour un devis, écrivez-nous sur WhatsApp. <a href="#formations">Voir nos formations et s'inscrire →</a></p>`,
   ref:"KEA SMART CONSULTING GUINÉE (KSC) SARLU – Lambanyi, Carrefour Canadien, Conakry."
 }
 ];
@@ -359,6 +419,11 @@ SUGGESTIONS.forEach(id => {
     document.getElementById("results").innerHTML = answerHtml(f) + waBox(f.q, true);
   });
   chips.appendChild(b);
+});
+
+document.querySelectorAll("[data-formation]").forEach(a => {
+  const msg = "Bonjour KEA SMART CONSULTING, je souhaite m'inscrire à la formation « " + a.dataset.formation + " ». Pouvez-vous m'envoyer les dates, le tarif et les modalités ?";
+  a.href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg);
 });
 
 const list = document.getElementById("faqList");
