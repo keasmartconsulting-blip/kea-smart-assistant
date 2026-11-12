@@ -1,33 +1,377 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KEA SMART CONSULTING - Assistant</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KEA SMART CONSULTING - Assistant</title>
+<meta name="description" content="Assistant de KEA SMART CONSULTING GUINÉE : réponses sourcées en comptabilité, fiscalité, social et création d'entreprise en Guinée.">
+<style>
+  :root{
+    --navy:#0A2E8A; --navy-dark:#071F5E; --gold:#D4A017; --gold-light:#FBF3DC;
+    --text:#1B2333; --muted:#5A6478; --bg:#F5F7FB; --card:#FFFFFF; --border:#DDE3EE;
+    --wa:#1FA855;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+  header{background:var(--navy);color:#fff;padding:22px 16px 26px;text-align:center;border-bottom:4px solid var(--gold)}
+  header h1{margin:0;font-size:1.35rem;letter-spacing:.5px}
+  header h1 span{color:var(--gold)}
+  header p{margin:8px auto 0;max-width:640px;font-size:.95rem;opacity:.92}
+  main{max-width:820px;margin:0 auto;padding:20px 16px 40px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:18px;box-shadow:0 2px 6px rgba(10,46,138,.05)}
+  h2{color:var(--navy);font-size:1.1rem;margin:0 0 12px}
+  .ask{display:flex;gap:8px;flex-wrap:wrap}
+  .ask input{flex:1 1 260px;padding:12px 14px;font-size:1rem;border:1.5px solid var(--border);border-radius:8px;outline:none}
+  .ask input:focus{border-color:var(--navy)}
+  button,.btn{cursor:pointer;border:none;border-radius:8px;padding:12px 18px;font-size:.95rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+  .btn-primary{background:var(--navy);color:#fff}
+  .btn-primary:hover{background:var(--navy-dark)}
+  .btn-wa{background:var(--wa);color:#fff}
+  .btn-wa:hover{filter:brightness(.93)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chip{background:var(--gold-light);color:var(--navy);border:1px solid #EBD9A6;border-radius:999px;padding:6px 12px;font-size:.85rem;cursor:pointer}
+  .chip:hover{background:#F6E7BC}
+  #results{margin-top:16px}
+  .answer{border-left:4px solid var(--gold);background:#FCFDFF;border-radius:8px;padding:14px 16px;margin-bottom:12px;border:1px solid var(--border);border-left-width:4px}
+  .answer h3{margin:0 0 8px;font-size:1rem;color:var(--navy)}
+  .answer ul{margin:6px 0 6px 18px;padding:0}
+  .answer li{margin-bottom:4px}
+  .ref{margin-top:10px;font-size:.82rem;color:var(--muted);background:#F1F4FA;border-radius:6px;padding:8px 10px}
+  .ref b{color:var(--navy)}
+  .notfound{background:#FFF8E6;border:1px solid #F0D98C;border-radius:8px;padding:14px 16px;margin-bottom:12px}
+  .wa-box{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-top:6px;padding:14px 16px;border-radius:8px;background:#EEF8F1;border:1px solid #BFE5CB}
+  .wa-box p{margin:0;font-size:.92rem}
+  details{border-bottom:1px solid var(--border);padding:10px 0}
+  details:last-child{border-bottom:none}
+  summary{cursor:pointer;font-weight:600;color:var(--navy);list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"+ ";color:var(--gold);font-weight:700}
+  details[open] summary::before{content:"– "}
+  .cat{font-size:.75rem;text-transform:uppercase;letter-spacing:.6px;color:var(--gold);font-weight:700;margin:18px 0 4px}
+  .cat:first-child{margin-top:0}
+  .disclaimer{font-size:.8rem;color:var(--muted)}
+  footer{text-align:center;font-size:.82rem;color:var(--muted);padding:18px 16px 30px}
+  footer b{color:var(--navy)}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>KEA SMART CONSULTING</h1>
-        <h2>Votre Assistant Consultant Intelligent</h2>
 
-        <p>Bienvenue sur l’assistant intelligent de KEA SMART CONSULTING GUINÉE.</p>
+<header>
+  <h1>KEA SMART <span>CONSULTING</span> GUINÉE</h1>
+  <p>Assistant du cabinet : réponses en comptabilité, fiscalité, social et création d'entreprise, avec la référence légale de chaque réponse.</p>
+</header>
 
-        <p>
-            Je peux vous orienter dans les domaines de la comptabilité,
-            de la fiscalité, de la gestion financière et de la création d’entreprise.
-        </p>
+<main>
+  <section class="card">
+    <h2>Posez votre question</h2>
+    <form class="ask" id="askForm" autocomplete="off">
+      <input id="question" type="text" placeholder="Ex. : Je suis une entreprise individuelle, quelles sont mes obligations ?" aria-label="Votre question">
+      <button type="submit" class="btn-primary">Envoyer</button>
+    </form>
+    <div class="chips" id="chips"></div>
+    <div id="results" aria-live="polite"></div>
+  </section>
 
-        <hr>
+  <section class="card">
+    <h2>Toutes les questions fréquentes</h2>
+    <div id="faqList"></div>
+  </section>
 
-        <h3>Posez votre question</h3>
+  <section class="card">
+    <p class="disclaimer"><b>Avertissement.</b> Ces réponses sont des informations générales, données à titre indicatif. Les taux et montants peuvent changer à chaque loi de finances. Avant toute décision, faites valider votre situation par un conseiller KEA SMART CONSULTING GUINÉE. Dernière mise à jour : novembre 2026.</p>
+  </section>
+</main>
 
-        <input type="text" id="question" aria-label="Votre question"
-               placeholder="Écrivez votre question ici...">
+<footer>
+  <b>KEA SMART CONSULTING GUINÉE (KSC) SARLU</b><br>
+  Lambanyi, Carrefour Canadien – Conakry<br>
+  WhatsApp : +224 627 39 56 01 · keasmartconsulting@gmail.com
+</footer>
 
-        <button type="button" onclick="envoyerQuestion()">Envoyer</button>
-    </div>
+<script>
+const WHATSAPP = "224627395601";
 
-    <script src="script.js"></script>
+/* ===================== BASE DE CONNAISSANCES ===================== */
+const FAQ = [
+{
+  id:"ei-obligations", cat:"Entreprise individuelle",
+  q:"Je suis une entreprise individuelle en Guinée : quelles sont mes obligations comptables et fiscales ?",
+  kw:["entreprise individuelle","ei","individuelle","obligation","obligations","comptable","comptables","fiscale","fiscales","commercant","commerçant","personne physique"],
+  a:`<p><b>Obligations juridiques et comptables</b></p>
+  <ul>
+    <li>S'immatriculer au Registre du commerce et du crédit mobilier (RCCM) dans le premier mois d'activité.</li>
+    <li>Tenir une comptabilité selon le SYSCOHADA révisé : livre-journal, grand livre, balance et inventaire, ou le Système minimal de trésorerie (SMT) si votre chiffre d'affaires est sous les seuils.</li>
+    <li>Conserver les pièces justificatives (factures, reçus, relevés) pendant 10 ans.</li>
+  </ul>
+  <p><b>Obligations fiscales (DGI)</b></p>
+  <ul>
+    <li>Obtenir un Numéro d'identification fiscale (NIF).</li>
+    <li>Déclarer et payer l'impôt de votre régime : Taxe professionnelle unique (TPU) pour les petites activités, ou régime du réel (impôt sur le bénéfice et Impôt minimum forfaitaire) selon votre chiffre d'affaires.</li>
+    <li>Collecter et reverser la TVA (18 %) si votre chiffre d'affaires dépasse le seuil de la franchise.</li>
+    <li>Si vous avez des salariés : retenir l'impôt sur les salaires (RTS), payer le Versement forfaitaire (VF) et déclarer à la CNSS.</li>
+  </ul>`,
+  ref:"Acte uniforme OHADA relatif au droit commercial général (AUDCG 2010), art. 13 et 44 ; Acte uniforme relatif au droit comptable et à l'information financière (AUDCIF 2017), art. 13 et 24 ; Code général des impôts de Guinée (CGI) et loi de finances en vigueur."
+},
+{
+  id:"entreprenant", cat:"Entreprise individuelle",
+  q:"Qu'est-ce que le statut d'entreprenant OHADA ?",
+  kw:["entreprenant","statut","auto entrepreneur","autoentrepreneur","micro","declaration activite","petit"],
+  a:`<p>L'entreprenant est un entrepreneur individuel qui exerce une petite activité (commerciale, artisanale, agricole ou libérale) et dont le chiffre d'affaires reste sous les seuils fixés par l'État.</p>
+  <ul>
+    <li>Il fait une simple <b>déclaration d'activité</b> au RCCM, sans frais d'immatriculation complets.</li>
+    <li>Il tient un livre chronologique des recettes et, pour la vente de marchandises, un registre des achats.</li>
+    <li>Au-delà des seuils pendant deux années consécutives, il doit passer au statut de commerçant.</li>
+  </ul>`,
+  ref:"AUDCG 2010, art. 30 à 33 (statut de l'entreprenant)."
+},
+{
+  id:"smt", cat:"Comptabilité",
+  q:"Ai-je droit à une comptabilité simplifiée (Système minimal de trésorerie) ?",
+  kw:["smt","systeme minimal","tresorerie","simplifiee","simplifie","petite entreprise","comptabilite simple","recettes depenses"],
+  a:`<p>Le SYSCOHADA prévoit le Système minimal de trésorerie (SMT) pour les très petites entités. Il suffit de suivre les encaissements et décaissements.</p>
+  <ul>
+    <li>Commerce (négoce) : chiffre d'affaires annuel jusqu'à <b>60 millions FCFA</b>.</li>
+    <li>Activités artisanales et assimilées : jusqu'à <b>40 millions FCFA</b>.</li>
+    <li>Prestations de services : jusqu'à <b>30 millions FCFA</b>.</li>
+  </ul>
+  <p>Les seuils OHADA sont exprimés en FCFA. En Guinée, ils se convertissent en GNF au cours en vigueur.</p>`,
+  ref:"AUDCIF 2017, art. 13 (seuils du Système minimal de trésorerie)."
+},
+{
+  id:"conservation", cat:"Comptabilité",
+  q:"Combien de temps dois-je garder mes factures et pièces comptables ?",
+  kw:["conserver","conservation","garder","archiver","archives","factures","pieces","justificatives","combien de temps","duree"],
+  a:`<p>Les livres comptables et les pièces justificatives (factures, reçus, relevés bancaires, contrats) doivent être conservés pendant <b>10 ans</b>.</p>
+  <p>Ces documents sont votre preuve en cas de contrôle de la DGI ou de la CNSS.</p>`,
+  ref:"AUDCIF 2017, art. 24."
+},
+{
+  id:"etats-financiers", cat:"Comptabilité",
+  q:"Qu'est-ce que les états financiers annuels et qui doit les produire ?",
+  kw:["etats financiers","bilan","compte de resultat","dsf","liasse","fin d annee","cloture","annuel","annuels"],
+  a:`<p>Toute entité soumise au SYSCOHADA établit chaque année, à la clôture de l'exercice, ses états financiers :</p>
+  <ul>
+    <li>Système normal : bilan, compte de résultat, tableau des flux de trésorerie et notes annexes.</li>
+    <li>Petites entités : système minimal de trésorerie (état simplifié).</li>
+  </ul>
+  <p>Ils servent aussi de base à la déclaration fiscale annuelle déposée à la DGI.</p>`,
+  ref:"AUDCIF 2017, art. 8, 11 et 13 ; SYSCOHADA révisé ; CGI de Guinée (déclaration annuelle des résultats)."
+},
+{
+  id:"tva", cat:"Fiscalité",
+  q:"Suis-je obligé de facturer la TVA ? Quel est le taux ?",
+  kw:["tva","taxe sur la valeur ajoutee","facturer","franchise","assujetti","taux tva","18"],
+  a:`<ul>
+    <li>Le taux normal de la TVA en Guinée est de <b>18 %</b>.</li>
+    <li>Les entreprises dont le chiffre d'affaires de l'année précédente est inférieur à <b>1 milliard GNF</b> relèvent de la franchise : elles ne facturent pas la TVA.</li>
+    <li>Au-dessus du seuil, vous facturez la TVA, la déclarez et la reversez chaque mois à la DGI, en déduisant la TVA payée sur vos achats.</li>
+  </ul>`,
+  ref:"CGI de Guinée, titre TVA ; loi de finances en vigueur (taux et seuil de franchise à confirmer à chaque nouvelle loi de finances)."
+},
+{
+  id:"imf", cat:"Fiscalité",
+  q:"Qu'est-ce que l'Impôt minimum forfaitaire (IMF) ?",
+  kw:["imf","impot minimum","minimum forfaitaire","forfaitaire","acompte"],
+  a:`<p>L'IMF est un impôt minimum calculé sur le chiffre d'affaires, dû même si l'entreprise est en perte.</p>
+  <ul>
+    <li>Taux communiqué par la DGI pour l'exercice 2025 : <b>2 % du chiffre d'affaires</b>.</li>
+    <li>Moyennes entreprises : minimum 20 millions GNF. Grandes entreprises : minimum 300 millions GNF.</li>
+    <li>Professions libérales organisées en ordre ou en chambre : 10 millions GNF.</li>
+    <li>Échéance 2025 fixée au 15 janvier. Un retard entraîne des pénalités.</li>
+  </ul>
+  <p>Les montants et l'échéance sont refixés chaque année : vérifiez le communiqué de la DGI en vigueur.</p>`,
+  ref:"CGI de Guinée, art. 224 ; communiqué de la DGI du 10 janvier 2025 sur l'IMF de l'exercice 2025."
+},
+{
+  id:"is", cat:"Fiscalité",
+  q:"Quel est le taux de l'impôt sur les sociétés (IS) ?",
+  kw:["is","impot sur les societes","impot sur le benefice","bic","ibic","benefice","taux","sarl","societe"],
+  a:`<ul>
+    <li>Le taux de droit commun de l'impôt sur les sociétés (et de l'impôt sur les bénéfices industriels et commerciaux) est de <b>25 %</b> du bénéfice imposable.</li>
+    <li>Certains secteurs (mines, télécommunications, etc.) ont des taux spécifiques.</li>
+    <li>L'IMF déjà payé s'impute sur l'impôt dû selon les règles du CGI.</li>
+  </ul>`,
+  ref:"CGI de Guinée, art. 107 bis ; loi de finances en vigueur."
+},
+{
+  id:"tpu", cat:"Fiscalité",
+  q:"Qu'est-ce que la Taxe professionnelle unique (TPU) ?",
+  kw:["tpu","taxe professionnelle","professionnelle unique","petit commerce","informel","synthetique","forfait"],
+  a:`<p>La TPU est un impôt synthétique destiné aux petites entreprises individuelles. Un seul paiement remplace plusieurs impôts (impôt sur le bénéfice, patente, etc.).</p>
+  <ul>
+    <li>Elle concerne les personnes physiques dont le chiffre d'affaires reste sous le seuil fixé par le CGI.</li>
+    <li>Certaines activités et formes juridiques (sociétés notamment) en sont exclues.</li>
+  </ul>`,
+  ref:"CGI de Guinée, Division « Taxe professionnelle unique » (personnes imposables, exclusions, obligations) ; numérotation à vérifier selon l'édition du CGI."
+},
+{
+  id:"salaires", cat:"Social et salaires",
+  q:"J'embauche un salarié : quelles sont mes obligations CNSS et fiscales ?",
+  kw:["cnss","salarie","salaries","embauche","employe","employes","cotisation","cotisations","securite sociale","personnel","salaire","salaires","rts","vf","versement forfaitaire"],
+  a:`<p><b>CNSS</b></p>
+  <ul>
+    <li>Immatriculer l'entreprise comme employeur et déclarer chaque salarié à la CNSS.</li>
+    <li>Cotisations : <b>18 % à la charge de l'employeur</b> et <b>5 % à la charge du salarié</b>, sur le salaire soumis à cotisation (dans la limite du plafond).</li>
+    <li>Déclarer et payer les cotisations à chaque échéance.</li>
+  </ul>
+  <p><b>DGI</b></p>
+  <ul>
+    <li>Retenir l'impôt sur les salaires (RTS) selon le barème progressif et le reverser.</li>
+    <li>Payer le Versement forfaitaire (VF) à la charge de l'employeur, au taux de 6 % de la masse salariale.</li>
+    <li>Payer la taxe d'apprentissage si l'entreprise y est soumise.</li>
+  </ul>`,
+  ref:"Code de sécurité sociale de Guinée ; CGI de Guinée, art. 201 (Versement forfaitaire) et dispositions relatives à la RTS et à la taxe d'apprentissage."
+},
+{
+  id:"creation-sarlu", cat:"Création d'entreprise",
+  q:"Comment créer une SARL ou une SARLU en Guinée ?",
+  kw:["creer","creation","sarl","sarlu","societe","entreprise","statuts","apip","immatriculation","rccm","ouvrir","demarrer","lancer"],
+  a:`<ol>
+    <li>Choisir la dénomination et rédiger les statuts.</li>
+    <li>Déposer le dossier au guichet unique de l'APIP (Agence de promotion des investissements privés) : RCCM, NIF et immatriculation CNSS en une seule démarche.</li>
+    <li>Ouvrir un compte bancaire au nom de la société.</li>
+    <li>Mettre en place la comptabilité SYSCOHADA dès le premier jour.</li>
+  </ol>
+  <p>La SARLU est une SARL à associé unique. La responsabilité de l'associé est limitée à ses apports.</p>`,
+  ref:"Acte uniforme OHADA relatif au droit des sociétés commerciales et du GIE (AUSCGIE 2014), art. 309 et suivants (SARL) ; AUDCG 2010 (RCCM)."
+},
+{
+  id:"ei-vs-sarlu", cat:"Création d'entreprise",
+  q:"Entreprise individuelle ou SARLU : que choisir ?",
+  kw:["choisir","difference","differences","ei ou sarlu","sarlu ou ei","forme juridique","statut juridique","comparer","mieux"],
+  a:`<ul>
+    <li><b>Entreprise individuelle</b> : formalités simples et coût réduit. Mais vos biens personnels et ceux de l'entreprise ne sont pas séparés : vous répondez des dettes sur votre patrimoine.</li>
+    <li><b>SARLU</b> : société avec personnalité morale. Votre responsabilité est limitée à vos apports. Image plus solide auprès des banques et des grands clients, mais formalités et obligations comptables plus lourdes.</li>
+  </ul>
+  <p>Le bon choix dépend de votre activité, de votre chiffre d'affaires prévu et de vos risques. Un conseiller KSC peut faire la comparaison avec vous.</p>`,
+  ref:"AUDCG 2010 (commerçant personne physique) ; AUSCGIE 2014, art. 309 (SARL)."
+},
+{
+  id:"courrier-dgi", cat:"Fiscalité",
+  q:"J'ai reçu un courrier de la DGI (demande d'éclaircissements) : que faire ?",
+  kw:["courrier","lettre","dgi","impots","eclaircissements","justification","justifications","controle","redressement","notification","demande"],
+  a:`<ul>
+    <li>Notez la date de réception : la réponse doit être déposée <b>dans le délai indiqué dans le courrier</b>.</li>
+    <li>Rassemblez les pièces justificatives demandées (factures, relevés, déclarations, contrats).</li>
+    <li>Répondez point par point, par écrit, avec des montants rapprochés de votre comptabilité.</li>
+    <li>Gardez la preuve de dépôt (décharge).</li>
+  </ul>
+  <p>Ne pas répondre peut entraîner une taxation d'office. KSC rédige ces réponses pour ses clients.</p>`,
+  ref:"CGI de Guinée, Livre des procédures fiscales (droit de contrôle et procédure contradictoire)."
+},
+{
+  id:"penalites", cat:"Fiscalité",
+  q:"Que se passe-t-il si je déclare ou paie en retard ?",
+  kw:["retard","penalite","penalites","amende","majoration","sanction","oubli","en retard"],
+  a:`<ul>
+    <li>Tout retard de déclaration ou de paiement entraîne des pénalités et des intérêts de retard.</li>
+    <li>À titre d'exemple, la DGI a rappelé pour l'IMF 2025 une majoration en cas de retard.</li>
+    <li>Une régularisation rapide, avant tout contrôle, limite les sanctions.</li>
+  </ul>`,
+  ref:"CGI de Guinée, dispositions sur les sanctions ; communiqué de la DGI du 10 janvier 2025."
+},
+{
+  id:"services", cat:"Le cabinet KSC",
+  q:"Quels services propose KEA SMART CONSULTING GUINÉE ?",
+  kw:["services","ksc","kea","cabinet","accompagnement","tarif","tarifs","devis","formation","formations","conseiller"],
+  a:`<ul>
+    <li>Tenue de comptabilité SYSCOHADA et états financiers annuels.</li>
+    <li>Déclarations fiscales (TVA, IMF, RTS, VF…) et réponses aux courriers de la DGI.</li>
+    <li>Déclarations et suivi CNSS.</li>
+    <li>Création d'entreprise (EI, SARL, SARLU).</li>
+    <li>Formations professionnelles : comptabilité, fiscalité, intelligence artificielle, outils Microsoft.</li>
+  </ul>
+  <p>Pour un devis, écrivez-nous sur WhatsApp.</p>`,
+  ref:"KEA SMART CONSULTING GUINÉE (KSC) SARLU – Lambanyi, Carrefour Canadien, Conakry."
+}
+];
+
+const SUGGESTIONS = ["ei-obligations","tva","salaires","creation-sarlu","courrier-dgi"];
+
+/* ===================== MOTEUR DE RECHERCHE ===================== */
+const STOP = new Set(("le la les un une des de du d l et ou a au aux en dans pour par sur avec mes mon ma je j suis est sont quelles quels quelle quel que qu quoi comment ce cet cette ces se sa son ses nous vous il elle on y ne pas plus tres faut dois doit avoir etre fait faire").split(" "));
+
+function norm(s){
+  return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+          .replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+}
+function tokens(s){ return norm(s).split(" ").filter(w => w.length>1 && !STOP.has(w)); }
+
+const INDEX = FAQ.map(f => ({
+  f,
+  kws: f.kw.map(norm),
+  words: new Set(tokens(f.q + " " + f.kw.join(" ")))
+}));
+
+function search(query){
+  const nq = " " + norm(query) + " ";
+  const qt = tokens(query);
+  return INDEX.map(({f,kws,words}) => {
+    let score = 0;
+    kws.forEach(k => { if (nq.includes(" " + k + " ")) score += k.includes(" ") ? 4 : 3; });
+    qt.forEach(w => { if (words.has(w)) score += 1; });
+    return {f, score};
+  }).filter(r => r.score >= 3).sort((a,b) => b.score - a.score).slice(0,3);
+}
+
+/* ===================== AFFICHAGE ===================== */
+function waLink(text){
+  const msg = "Bonjour KEA SMART CONSULTING, j'ai une question : " + text;
+  return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg);
+}
+function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+function answerHtml(f){
+  return `<article class="answer"><h3>${f.q}</h3>${f.a}<div class="ref"><b>Référence :</b> ${f.ref}</div></article>`;
+}
+function waBox(question, found){
+  const label = found ? "Votre cas est particulier ? Un conseiller vous répond sur WhatsApp."
+                      : "Envoyez votre question à un conseiller KSC sur WhatsApp.";
+  return `<div class="wa-box"><p>${label}</p>
+    <a class="btn btn-wa" href="${waLink(question)}" target="_blank" rel="noopener">💬 Poser ma question sur WhatsApp</a></div>`;
+}
+
+function ask(question){
+  const q = question.trim();
+  const out = document.getElementById("results");
+  if (!q){ out.innerHTML = `<div class="notfound">Écrivez votre question dans le champ ci-dessus.</div>`; return; }
+  const res = search(q);
+  if (res.length){
+    out.innerHTML = res.map(r => answerHtml(r.f)).join("") + waBox(q, true);
+  } else {
+    out.innerHTML = `<div class="notfound">Je n'ai pas encore de réponse enregistrée pour « ${escapeHtml(q)} ». Un conseiller peut vous répondre directement.</div>` + waBox(q, false);
+  }
+  out.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+document.getElementById("askForm").addEventListener("submit", e => {
+  e.preventDefault();
+  ask(document.getElementById("question").value);
+});
+
+const chips = document.getElementById("chips");
+SUGGESTIONS.forEach(id => {
+  const f = FAQ.find(x => x.id === id);
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "chip"; b.textContent = f.q;
+  b.addEventListener("click", () => {
+    document.getElementById("question").value = f.q;
+    document.getElementById("results").innerHTML = answerHtml(f) + waBox(f.q, true);
+  });
+  chips.appendChild(b);
+});
+
+const list = document.getElementById("faqList");
+let lastCat = "";
+FAQ.forEach(f => {
+  if (f.cat !== lastCat){
+    const c = document.createElement("div"); c.className = "cat"; c.textContent = f.cat;
+    list.appendChild(c); lastCat = f.cat;
+  }
+  const d = document.createElement("details");
+  d.innerHTML = `<summary>${f.q}</summary>${f.a}<div class="ref"><b>Référence :</b> ${f.ref}</div>`;
+  list.appendChild(d);
+});
+</script>
 </body>
 </html>
